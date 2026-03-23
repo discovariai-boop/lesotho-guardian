@@ -60,13 +60,13 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         transport: {
-          orange: "hsl(24 100% 50%)",
-          teal: "hsl(160 100% 20%)",
-          blue: "hsl(200 80% 50%)",
+          blue: "hsl(217 91% 50%)",
+          "blue-light": "hsl(210 80% 60%)",
           green: "hsl(142 76% 36%)",
           red: "hsl(0 72% 51%)",
           yellow: "hsl(45 93% 47%)",
           purple: "hsl(270 60% 50%)",
+          orange: "hsl(24 100% 55%)",
         },
       },
       borderRadius: {

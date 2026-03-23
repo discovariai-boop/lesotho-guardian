@@ -9,7 +9,7 @@ const MASERU_CENTER: [number, number] = [-29.3151, 27.4869];
 function createDivIcon(color: string, symbol: string) {
   return L.divIcon({
     className: '',
-    html: `<div style="width:28px;height:28px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:12px;color:white;box-shadow:0 0 12px ${color}80;border:2px solid rgba(255,255,255,0.3)">${symbol}</div>`,
+    html: `<div style="width:28px;height:28px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;font-size:12px;color:white;box-shadow:0 0 12px ${color}80;border:2px solid rgba(255,255,255,0.7)">${symbol}</div>`,
     iconSize: [28, 28],
     iconAnchor: [14, 14],
   });
@@ -18,14 +18,14 @@ function createDivIcon(color: string, symbol: string) {
 const incidentIcons: Record<string, L.DivIcon> = {
   crash: createDivIcon('#ef4444', '💥'),
   pothole: createDivIcon('#eab308', '⚠'),
-  congestion: createDivIcon('#f97316', '🚗'),
+  congestion: createDivIcon('#3b82f6', '🚗'),
   closure: createDivIcon('#8b5cf6', '🚧'),
   sos: createDivIcon('#ef4444', '🆘'),
 };
 
 const vehicleIcons: Record<string, L.DivIcon> = {
-  ambulance: createDivIcon('#f97316', '🚑'),
-  police: createDivIcon('#3b82f6', '🚔'),
+  ambulance: createDivIcon('#3b82f6', '🚑'),
+  police: createDivIcon('#2563eb', '🚔'),
   fire: createDivIcon('#ef4444', '🚒'),
 };
 
@@ -46,7 +46,6 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
   const lightMarkersRef = useRef<Map<string, L.Marker>>(new Map());
   const circlesRef = useRef<Map<string, L.Circle>>(new Map());
 
-  // Initialize map once
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
     const map = L.map(containerRef.current, {
@@ -54,7 +53,7 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
       zoom: 10,
       zoomControl: false,
     });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; CARTO',
     }).addTo(map);
     mapRef.current = map;
@@ -65,7 +64,6 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
     };
   }, []);
 
-  // Update incident markers
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -78,23 +76,21 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
         existing.setLatLng([inc.lat, inc.lng]);
       } else {
         const m = L.marker([inc.lat, inc.lng], { icon: incidentIcons[inc.type] })
-          .bindPopup(`<div style="color:#0a0f1a;font-size:12px"><b>${inc.id}</b> — ${inc.type.toUpperCase()}<br/>${inc.location}<br/>Severity: <b>${inc.severity}</b>${inc.assignedUnit ? `<br/>Unit: ${inc.assignedUnit}` : ''}${inc.eta ? `<br/>ETA: ${inc.eta} min` : ''}</div>`)
+          .bindPopup(`<div style="color:#1e293b;font-size:12px"><b>${inc.id}</b> — ${inc.type.toUpperCase()}<br/>${inc.location}<br/>Severity: <b>${inc.severity}</b>${inc.assignedUnit ? `<br/>Unit: ${inc.assignedUnit}` : ''}${inc.eta ? `<br/>ETA: ${inc.eta} min` : ''}</div>`)
           .addTo(map);
         incidentMarkersRef.current.set(inc.id, m);
       }
     });
 
-    // Remove stale
     incidentMarkersRef.current.forEach((m, id) => {
       if (!activeIds.has(id)) { map.removeLayer(m); incidentMarkersRef.current.delete(id); }
     });
 
-    // Critical circles
     const criticalIds = new Set<string>();
     incidents.filter(i => i.severity === 'critical' && i.status === 'active').forEach(inc => {
       criticalIds.add(inc.id);
       if (!circlesRef.current.has(inc.id)) {
-        const c = L.circle([inc.lat, inc.lng], { radius: 800, color: '#ef4444', fillColor: '#ef444440', fillOpacity: 0.2, weight: 1 }).addTo(map);
+        const c = L.circle([inc.lat, inc.lng], { radius: 800, color: '#3b82f6', fillColor: '#3b82f640', fillOpacity: 0.15, weight: 1 }).addTo(map);
         circlesRef.current.set(inc.id, c);
       }
     });
@@ -103,7 +99,6 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
     });
   }, [incidents]);
 
-  // Update vehicle markers
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -113,14 +108,13 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
         existing.setLatLng([v.lat, v.lng]);
       } else {
         const m = L.marker([v.lat, v.lng], { icon: vehicleIcons[v.type] })
-          .bindPopup(`<div style="color:#0a0f1a;font-size:12px"><b>${v.callsign}</b><br/>Status: ${v.status}<br/>Speed: ${v.speed}km/h</div>`)
+          .bindPopup(`<div style="color:#1e293b;font-size:12px"><b>${v.callsign}</b><br/>Status: ${v.status}<br/>Speed: ${v.speed}km/h</div>`)
           .addTo(map);
         vehicleMarkersRef.current.set(v.id, m);
       }
     });
   }, [vehicles]);
 
-  // Update traffic light markers
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -130,7 +124,7 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
         existing.setLatLng([tl.lat, tl.lng]).setIcon(lightIconFn(tl.phase));
       } else {
         const m = L.marker([tl.lat, tl.lng], { icon: lightIconFn(tl.phase) })
-          .bindPopup(`<div style="color:#0a0f1a;font-size:12px"><b>${tl.intersection}</b><br/>Phase: ${tl.phase} | Mode: ${tl.mode}<br/>Timer: ${tl.timing}s | Power: ${tl.powered ? '✅' : '❌'}</div>`)
+          .bindPopup(`<div style="color:#1e293b;font-size:12px"><b>${tl.intersection}</b><br/>Phase: ${tl.phase} | Mode: ${tl.mode}<br/>Timer: ${tl.timing}s | Power: ${tl.powered ? '✅' : '❌'}</div>`)
           .addTo(map);
         lightMarkersRef.current.set(tl.id, m);
       }
@@ -149,7 +143,7 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
         <span className="text-xs font-medium text-foreground">National Transport Map</span>
         <span className="w-1.5 h-1.5 bg-transport-green rounded-full status-pulse" />
       </div>
-      <div ref={containerRef} className="h-full w-full rounded-[22px]" style={{ background: '#0a0f1a' }} />
+      <div ref={containerRef} className="h-full w-full rounded-[22px]" style={{ background: '#f0f4f8' }} />
     </motion.div>
   );
 }
