@@ -25,7 +25,7 @@ export default function AnalyticsPanel({ stats }: { stats: DashboardStats }) {
       className="glass-panel p-4 flex flex-col h-full"
     >
       <div className="flex items-center gap-2 mb-3">
-        <BarChart3 className="w-4 h-4 text-accent" />
+        <BarChart3 className="w-4 h-4 text-primary" />
         <h2 className="text-sm font-semibold text-foreground">Predictive Analytics</h2>
       </div>
 
@@ -48,22 +48,22 @@ export default function AnalyticsPanel({ stats }: { stats: DashboardStats }) {
           <AreaChart data={trafficForecast}>
             <defs>
               <linearGradient id="gradPredicted" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="hsl(24,100%,50%)" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="hsl(24,100%,50%)" stopOpacity={0} />
+                <stop offset="0%" stopColor="hsl(217,91%,50%)" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="hsl(217,91%,50%)" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="gradActual" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="hsl(200,80%,50%)" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="hsl(200,80%,50%)" stopOpacity={0} />
+                <stop offset="0%" stopColor="hsl(210,80%,55%)" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="hsl(210,80%,55%)" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <XAxis dataKey="hour" tick={{ fontSize: 9, fill: 'hsl(215,15%,55%)' }} tickLine={false} axisLine={false} interval={3} />
-            <YAxis tick={{ fontSize: 9, fill: 'hsl(215,15%,55%)' }} tickLine={false} axisLine={false} width={30} />
+            <XAxis dataKey="hour" tick={{ fontSize: 9, fill: 'hsl(215,15%,45%)' }} tickLine={false} axisLine={false} interval={3} />
+            <YAxis tick={{ fontSize: 9, fill: 'hsl(215,15%,45%)' }} tickLine={false} axisLine={false} width={30} />
             <Tooltip
-              contentStyle={{ background: 'rgba(10,15,25,0.9)', border: '1px solid rgba(120,130,150,0.2)', borderRadius: 12, fontSize: 11 }}
-              labelStyle={{ color: 'hsl(210,20%,90%)' }}
+              contentStyle={{ background: 'rgba(255,255,255,0.95)', border: '1px solid hsl(214,20%,88%)', borderRadius: 12, fontSize: 11 }}
+              labelStyle={{ color: 'hsl(220,20%,14%)' }}
             />
-            <Area type="monotone" dataKey="predicted" stroke="hsl(24,100%,50%)" fill="url(#gradPredicted)" strokeWidth={2} dot={false} />
-            <Area type="monotone" dataKey="actual" stroke="hsl(200,80%,50%)" fill="url(#gradActual)" strokeWidth={2} dot={false} />
+            <Area type="monotone" dataKey="predicted" stroke="hsl(217,91%,50%)" fill="url(#gradPredicted)" strokeWidth={2} dot={false} />
+            <Area type="monotone" dataKey="actual" stroke="hsl(210,80%,55%)" fill="url(#gradActual)" strokeWidth={2} dot={false} />
           </AreaChart>
         </ResponsiveContainer>
       </div>

@@ -39,9 +39,9 @@ export default function AITransportAssistant() {
       className="glass-panel p-4 h-full flex flex-col"
     >
       <div className="flex items-center gap-2 mb-3">
-        <Bot className="w-4 h-4 text-accent" />
+        <Bot className="w-4 h-4 text-primary" />
         <h2 className="text-sm font-semibold text-foreground">AI Transport Assistant</h2>
-        <Sparkles className="w-3 h-3 text-primary animate-pulse-glow" />
+        <Sparkles className="w-3 h-3 text-accent animate-pulse-glow" />
       </div>
 
       {messages.length === 0 && (
@@ -68,7 +68,7 @@ export default function AITransportAssistant() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 className={`text-xs p-2.5 rounded-xl ${
-                  msg.role === 'user' ? 'bg-primary/20 text-foreground ml-6' : 'bg-muted/50 text-foreground mr-4'
+                  msg.role === 'user' ? 'bg-primary/15 text-foreground ml-6' : 'bg-muted/50 text-foreground mr-4'
                 }`}
               >
                 <pre className="whitespace-pre-wrap font-sans">{msg.text}</pre>
@@ -88,7 +88,7 @@ export default function AITransportAssistant() {
         />
         <button
           onClick={() => handleSubmit(query)}
-          className="p-2 rounded-xl bg-primary/20 hover:bg-primary/30 text-primary transition-colors"
+          className="p-2 rounded-xl bg-primary/15 hover:bg-primary/25 text-primary transition-colors"
         >
           <Send className="w-3.5 h-3.5" />
         </button>

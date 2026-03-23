@@ -3,15 +3,15 @@ import { AlertTriangle, Clock, MapPin, ChevronRight } from 'lucide-react';
 import type { Incident } from '@/hooks/useRealTimeRoadData';
 
 const severityColor: Record<string, string> = {
-  critical: 'bg-destructive/20 text-destructive border-destructive/30',
-  high: 'bg-transport-orange/20 text-transport-orange border-transport-orange/30',
-  medium: 'bg-transport-yellow/20 text-transport-yellow border-transport-yellow/30',
-  low: 'bg-transport-green/20 text-transport-green border-transport-green/30',
+  critical: 'bg-destructive/15 text-destructive border-destructive/30',
+  high: 'bg-primary/15 text-primary border-primary/30',
+  medium: 'bg-transport-yellow/15 text-transport-yellow border-transport-yellow/30',
+  low: 'bg-transport-green/15 text-transport-green border-transport-green/30',
 };
 
 const statusDot: Record<string, string> = {
   active: 'bg-destructive',
-  responding: 'bg-transport-orange',
+  responding: 'bg-primary',
   resolved: 'bg-transport-green',
 };
 

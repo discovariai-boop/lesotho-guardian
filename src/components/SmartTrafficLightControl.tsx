@@ -29,7 +29,7 @@ export default function SmartTrafficLightControl({ lights, onOverride, onGreenWa
         </div>
         <button
           onClick={onGreenWave}
-          className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg bg-transport-green/20 text-transport-green hover:bg-transport-green/30 transition-colors"
+          className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg bg-transport-green/15 text-transport-green hover:bg-transport-green/25 transition-colors"
         >
           <Zap className="w-3 h-3" />
           Green Wave
@@ -54,8 +54,8 @@ export default function SmartTrafficLightControl({ lights, onOverride, onGreenWa
                   />
                   <span className="text-[10px] text-muted-foreground font-mono">{light.timing}s</span>
                   <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                    light.mode === 'emergency' ? 'bg-destructive/20 text-destructive' :
-                    light.mode === 'manual' ? 'bg-transport-orange/20 text-transport-orange' :
+                    light.mode === 'emergency' ? 'bg-destructive/15 text-destructive' :
+                    light.mode === 'manual' ? 'bg-primary/15 text-primary' :
                     'bg-muted text-muted-foreground'
                   }`}>
                     {light.mode}

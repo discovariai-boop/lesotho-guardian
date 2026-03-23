@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { Route, Wrench, Activity } from 'lucide-react';
+import { Route, Wrench } from 'lucide-react';
 import type { RoadSegment } from '@/hooks/useRealTimeRoadData';
 
 const sevColors: Record<string, string> = {
-  good: 'text-transport-green bg-transport-green/15',
-  fair: 'text-transport-yellow bg-transport-yellow/15',
-  poor: 'text-transport-orange bg-transport-orange/15',
-  critical: 'text-destructive bg-destructive/15',
+  good: 'text-transport-green bg-transport-green/10',
+  fair: 'text-transport-yellow bg-transport-yellow/10',
+  poor: 'text-primary bg-primary/10',
+  critical: 'text-destructive bg-destructive/10',
 };
 
 export default function RoadInfrastructureHealth({ roads }: { roads: RoadSegment[] }) {
@@ -18,7 +18,7 @@ export default function RoadInfrastructureHealth({ roads }: { roads: RoadSegment
       className="glass-panel p-4 h-full flex flex-col"
     >
       <div className="flex items-center gap-2 mb-3">
-        <Route className="w-4 h-4 text-transport-teal" />
+        <Route className="w-4 h-4 text-primary" />
         <h2 className="text-sm font-semibold text-foreground">Road Infrastructure Health</h2>
       </div>
       <div className="flex-1 overflow-y-auto scrollbar-thin space-y-2">
@@ -51,7 +51,7 @@ export default function RoadInfrastructureHealth({ roads }: { roads: RoadSegment
                 </div>
               </div>
               {road.maintenanceStatus !== 'none' && (
-                <div className="flex items-center gap-1 text-[10px] text-transport-orange">
+                <div className="flex items-center gap-1 text-[10px] text-primary">
                   <Wrench className="w-2.5 h-2.5" />
                   Maintenance {road.maintenanceStatus}
                 </div>
