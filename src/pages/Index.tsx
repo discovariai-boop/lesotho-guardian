@@ -1,16 +1,49 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useRealTimeRoadData } from '@/hooks/useRealTimeRoadData';
+import DashboardHeader from '@/components/DashboardHeader';
+import SmartLesothoTransportMap from '@/components/SmartLesothoTransportMap';
+import TrafficIncidentQueue from '@/components/TrafficIncidentQueue';
+import SmartTrafficLightControl from '@/components/SmartTrafficLightControl';
+import AITransportAssistant from '@/components/AITransportAssistant';
+import RoadInfrastructureHealth from '@/components/RoadInfrastructureHealth';
+import AnalyticsPanel from '@/components/AnalyticsPanel';
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+export default function Index() {
+  const { incidents, vehicles, trafficLights, roads, stats, overrideLight, activateGreenWave } = useRealTimeRoadData();
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen gradient-bg p-3 flex flex-col gap-3">
+      <DashboardHeader stats={stats} />
+
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-3 min-h-0" style={{ height: 'calc(100vh - 100px)' }}>
+        {/* Map - takes 2 columns */}
+        <div className="lg:col-span-2 min-h-[400px]">
+          <SmartLesothoTransportMap incidents={incidents} vehicles={vehicles} trafficLights={trafficLights} />
+        </div>
+
+        {/* Right side panels */}
+        <div className="flex flex-col gap-3 min-h-0">
+          <div className="flex-1 min-h-0">
+            <TrafficIncidentQueue incidents={incidents} />
+          </div>
+          <div className="flex-1 min-h-0">
+            <SmartTrafficLightControl lights={trafficLights} onOverride={overrideLight} onGreenWave={activateGreenWave} />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3 min-h-0">
+          <div className="flex-1 min-h-0">
+            <AITransportAssistant />
+          </div>
+          <div className="flex-1 min-h-0">
+            <RoadInfrastructureHealth roads={roads} />
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom analytics */}
+      <div className="h-[220px]">
+        <AnalyticsPanel stats={stats} />
+      </div>
     </div>
   );
-};
-
-const Index = PlaceholderIndex;
-
-export default Index;
+}
