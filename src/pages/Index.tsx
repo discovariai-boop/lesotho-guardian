@@ -21,7 +21,7 @@ export default function Index() {
       case 'map':
         return (
           <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-3 min-h-0" style={{ height: CONTENT_HEIGHT }}>
-            <div className="lg:col-span-2 min-h-[400px]">
+            <div className="lg:col-span-2 min-h-[400px] h-full">
               <SmartLesothoTransportMap incidents={incidents} vehicles={vehicles} trafficLights={trafficLights} />
             </div>
             <div className="flex flex-col gap-3 min-h-0">

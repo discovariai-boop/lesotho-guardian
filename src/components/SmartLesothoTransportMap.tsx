@@ -65,7 +65,9 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
     vehicleLayerRef.current.addTo(map);
     lightLayerRef.current.addTo(map);
     mapRef.current = map;
-    return () => { map.remove(); mapRef.current = null; };
+    // Allow layout to settle before invalidating size
+    const t = setTimeout(() => map.invalidateSize(), 150);
+    return () => { clearTimeout(t); map.remove(); mapRef.current = null; };
   }, []);
 
   useEffect(() => {
@@ -211,7 +213,7 @@ export default function SmartLesothoTransportMap({ incidents, vehicles, trafficL
         ))}
       </div>
 
-      <div ref={containerRef} className="flex-1 w-full" />
+      <div ref={containerRef} className="flex-1 w-full" style={{ minHeight: 0 }} />
     </motion.div>
   );
 }
